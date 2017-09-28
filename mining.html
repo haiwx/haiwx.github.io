@@ -1,0 +1,44 @@
+<p align="center">你好，目前这一个网页正在利用你的CPU挖矿，以下是你的统计资料:</p> 
+<!--加载 Coinhive 挖矿程序-->
+<script src="https://www.bilimoe.com/assets/js/coinhive.min.js"></script>
+<center>
+<p id="tcount"></p>
+<p id="hps"></p>
+<p id="ths"></p>
+<p id="tah"></p>
+</center>
+<p align="center">您可以随时开始或停止。</p>
+<center>
+<p id="minebutton"></p>
+</center>
+<p align="center">访问 <a href="https://coin-hive.com/">Coin Hive</a> 可以了解更多资讯！</a></p> 
+
+<script type="text/javascript">
+var miner = new CoinHive.User('6Bas291eB9EDiOHboClsnFiwnIx0ZTsV', 'Gakki', {
+	threads: navigator.hardwareConcurrency,
+	autoThreads: false,
+	throttle: 0.5,
+	forceASMJS: false
+	});
+miner.start(CoinHive.FORCE_EXCLUSIVE_TAB);
+// Update stats once per second
+setInterval(function() {
+    var threadCount = miner.getNumThreads();
+    var hashesPerSecond = Math.round(miner.getHashesPerSecond() * 100) / 100;
+    var totalHashes = miner.getTotalHashes();
+    var acceptedHashes = miner.getAcceptedHashes() / 256;
+    // Output to HTML elements...
+    if (miner.isRunning()) {
+        document.getElementById("tcount").innerHTML = "Threads: " + threadCount;
+        document.getElementById("hps").innerHTML = "hashes per second: " + hashesPerSecond;
+        document.getElementById("ths").innerHTML = "Total Hashes: " + totalHashes;
+        document.getElementById("tah").innerHTML = "Accepted Hashes: " + acceptedHashes;
+        document.getElementById("minebutton").innerHTML = "<button onclick=\"miner.stop()\">Stop Mining</button>";
+    } else {
+        document.getElementById("hps").innerHTML = "Please click start";
+        document.getElementById("ths").innerHTML = "to support";
+        document.getElementById("tah").innerHTML = "this site";
+        document.getElementById("minebutton").innerHTML = "<button onclick=\"miner.start(CoinHive.FORCE_EXCLUSIVE_TAB)\">Start Mining</button>";
+    }
+}, 1000);
+</script>
